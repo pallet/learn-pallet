@@ -1,10 +1,10 @@
-(learn-pallet/bootstrap-ns test.test
+(learn-pallet/bootstrap-ns install-java
  '[[com.palletops/java-crate "0.8.0-beta.4"]])
-(ns test.test
+(ns install-java
   (:require [pallet.crate.java :as java]))
 
 (def my-group (group-spec "my-test"
-                          :extends [base-spec
+                          :extends [*base-spec*
                                     (java/server-spec {})]))
 
 (defn run []

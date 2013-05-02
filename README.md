@@ -15,12 +15,12 @@ to get to it.
 ;; this will get you a working VMFest if you have VirtualBox
 ;; already installed. If you don't have an Ubuntu 12.04 image
 ;; installed, it will download and install one, so be patient!
-user> (use 'learn-pallet :reload-all)(bootstrap :vmfest)
+user> (use 'learn-pallet)(bootstrap :vmfest)
 
 ;; switch to a name-space. This will also import the jars needed from
 ;; clojars and/or sonatype and they'll be put in the classpath
 ;; automatically. It can take some time to do so.
-user> (switch-ns test.test)
+user> (switch-ns install-java)
 
 ;; you're ready to run the exercise
 test.test> (build)
