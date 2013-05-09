@@ -82,8 +82,7 @@
   `(do
      (distill-all ~deps)
      (in-ns '~ns)
-     (clojure.core/use '~'learn-pallet)
-     (bootstrap-ns*)))
+     (clojure.core/use '~'learn-pallet)))
 
 (defmacro switch-ns
   "Switches the repl to a new namespace `ns`. It does so by loading
