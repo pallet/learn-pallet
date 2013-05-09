@@ -4,10 +4,14 @@
             [pallet.compute :refer [instantiate-provider]]
             [pallet.crate.automated-admin-user :refer [with-automated-admin-user]]))
 
-(def vmfest-deps
-   "Dependencies to make vmfest work"
-  '[[org.clojars.tbatchelli/vboxjxpcom "4.2.4"]
-    [org.cloudhoist/pallet-vmfest "0.3.0-alpha.3"]])
+(def provider-deps
+  {:vmfest '[[com.palletops/pallet-vmfest "0.3.0-SNAPSHOT"]]
+   :ec2 '[[org.cloudhoist/pallet-jclouds "1.5.2"]
+          [org.jclouds.provider/aws-ec2 "1.5.5"]
+          [org.jclouds.provider/aws-s3 "1.5.5"]
+          [org.jclouds.provider/jclouds-slf4j "1.5.5"]
+          [org.jclouds.provider/jclouds-sshj "1.5.5"]]})
+
 
 (defn distill-all
   "Distills a sequence of lein-style libs"
@@ -35,24 +39,39 @@
    "boostraps a namespace to use pallet-repl"
   []
   (use-pallet))
+(defn- load-vmfest
+  "Sets VMFest as the compute provider"
+  [& opts]
+  ;; instantiate the provider first to load the right vbox lib into
+  ;; the classpath
+  (let [compute (apply instantiate-provider :vmfest opts)]
+    (require 'pallet.compute.vmfest 'learn-pallet.vmfest)
+    (let [bootstrap-vmfest (ns-resolve 'learn-pallet.vmfest
+                                       'bootstrap-vmfest)]
+      (alter-var-root #'*compute* (constantly compute))
+      (bootstrap-vmfest *compute*))))
+
+(defn- load-ec2
+  "Sets EC2 as the compute provider"
+  [opts]
+  (let [compute (apply instantiate-provider :aws-ec2 opts)]
+    (alter-var-root #'*compute* (constantly compute))))
 
 (defn bootstrap
-  "Boostraps the project, based on the `provider`. In the case of
-  `:vmfest` it will downlaod and install an appropriate image if not
-  found.
+  "Boostraps the project, based on the `provider`. Providers allowed are:
 
-  Currently supports :vmfest only."
-  [provider]
+  - :vmfest -> for VirtualBox via XPCOM (native)
+  - :vmfest-ws -> for VirtualBox via Web Services. Requires `vboxwebsrv` running.
+  - :ec2 -> for Amazon EC2. Requires :identity and :credential parameters."
+  [provider & opts]
   (bootstrap-ns*)
   (condp = provider
-    :vmfest (do
-              (distill-all vmfest-deps)
-              (require  'pallet.compute.vmfest 'learn-pallet.vmfest)
-              (let [bootstrap-vmfest (ns-resolve 'learn-pallet.vmfest
-                                                 'boostrap-vmfest)
-                    compute (instantiate-provider :vmfest)]
-                (alter-var-root #'*compute* (constantly compute))
-                (bootstrap-vmfest *compute*)))))
+    :vmfest (do (distill-all (:vmfest provider-deps))
+                (load-vmfest))
+    :vmfest-ws (do (distill-all (:vmfest provider-deps))
+                   (load-vmfest :vbox-comm :ws))
+    :ec2 (do (distill-all (:ec2 provider-deps))
+             (load-ec2 opts))))
 
 (defmacro bootstrap-ns
   "Bootstraps the namespace `ns` by downloading (if necessary) and

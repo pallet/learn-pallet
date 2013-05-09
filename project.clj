@@ -7,7 +7,4 @@
                  [org.clojure/tools.logging "0.2.3"]
                  [ch.qos.logback/logback-classic "1.0.9"]
                  [alembic "0.1.1-SNAPSHOT"]
-                 [com.palletops/pallet "0.8.0-beta.9"]]
-  ;; needed for pallet-vmfest
-  :repositories {"sonatype"
-                 "http://oss.sonatype.org/content/repositories/releases"})
+                 [com.palletops/pallet "0.8.0-beta.9"]])

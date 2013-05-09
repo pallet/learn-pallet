@@ -10,7 +10,7 @@
 (def ^:dynamic *image-url*
   "https://s3.amazonaws.com/vmfest-images/ubuntu-12.04.vdi.gz")
 
-(defn boostrap-vmfest [compute]
+(defn bootstrap-vmfest [compute]
   ;; get the vmfest connection from the provider
   (let [ubuntu-models (find-images compute {:os-family :ubuntu :os-version "12.04"})]
     (if (seq ubuntu-models)
@@ -26,3 +26,4 @@
                (println "***   we're ready to roll!"))
              (catch Exception e
                (println "*** Oops. Something went wrong trying to install the VM image.")))))))
+
