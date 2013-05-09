@@ -35,10 +35,6 @@
                          :node-spec *node-spec*
                          :extends [with-automated-admin-user]))
 
-(defn bootstrap-ns*
-   "boostraps a namespace to use pallet-repl"
-  []
-  (use-pallet))
 (defn- load-vmfest
   "Sets VMFest as the compute provider"
   [& opts]
@@ -64,7 +60,6 @@
   - :vmfest-ws -> for VirtualBox via Web Services. Requires `vboxwebsrv` running.
   - :ec2 -> for Amazon EC2. Requires :identity and :credential parameters."
   [provider & opts]
-  (bootstrap-ns*)
   (condp = provider
     :vmfest (do (distill-all (:vmfest provider-deps))
                 (load-vmfest))
@@ -103,4 +98,6 @@
      (apply require clojure.main/repl-requires)
      ;; bind learn-pallet into this namespace so that global symbols
      ;; are present
-     (clojure.core/use '~'learn-pallet)))
+     (clojure.core/use '~'learn-pallet)
+     ;; bring also the basic pallet.repl functions
+     (clojure.core/use '~'pallet.repl)))
