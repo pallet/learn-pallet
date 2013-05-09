@@ -18,10 +18,9 @@
   [deps]
   (doseq [dep deps] (distill dep)))
 
-(def ^:dynamic
-  *compute*
-  "The compute provider to be used exercises"
-  nil)
+(defonce ^{:dynamic true
+           :doc "The compute provider to be used exercises"}
+  *compute* nil)
 
 (def ^:dynamic
   *node-spec*
