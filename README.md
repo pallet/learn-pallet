@@ -46,8 +46,8 @@ When the file is loaded, this dependencies will be fetched from the
 repos and loaded into the current classpath.
 
 `learn-pallet` also provides the exercises with a default provider
-`*compute*` and a default spec `base-spec` that defines the node-spec
-for the ubuntu image, and also authorizes you to log into the node.
+`*compute*` and a default spec `*base-spec*` that defines the node-spec
+for the image, and also authorizes you to log into the node.
 
 ## License
 

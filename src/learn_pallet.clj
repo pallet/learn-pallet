@@ -18,22 +18,18 @@
   [deps]
   (doseq [dep deps] (distill dep)))
 
-(def ^:dynamic
+(defonce ^:dynamic
   *compute*
-  "The compute provider to be used exercises"
   nil)
 
-(def ^:dynamic
-  *node-spec*
-  "The node-spec to be used in all exercises"
-  {:image {:image-id :ubuntu-12.04}})
-
-(def ^:dynamic
-  *base-spec*
-  "The default group to be extended by group-specs in all exercises"
+(defn base-spec [image-id]
   (pallet.api/group-spec "learn-pallet-base-spec"
-                         :node-spec *node-spec*
+                         :node-spec {:image {:image-id image-id}}
                          :extends [with-automated-admin-user]))
+
+(defonce ^:dynamic
+  *base-spec*
+  nil)
 
 (defn- load-vmfest
   "Sets VMFest as the compute provider"
@@ -45,7 +41,7 @@
     (let [bootstrap-vmfest (ns-resolve 'learn-pallet.vmfest
                                        'bootstrap-vmfest)]
       (alter-var-root #'*compute* (constantly compute))
-      (bootstrap-vmfest *compute*))))
+      (apply bootstrap-vmfest *compute* opts))))
 
 (defn- load-ec2
   "Sets EC2 as the compute provider"
@@ -62,9 +58,9 @@
   [provider & opts]
   (condp = provider
     :vmfest (do (distill-all (:vmfest provider-deps))
-                (load-vmfest))
+                (apply load-vmfest opts))
     :vmfest-ws (do (distill-all (:vmfest provider-deps))
-                   (load-vmfest :vbox-comm :ws))
+                   (apply load-vmfest :vbox-comm :ws (rest opts)))
     :ec2 (do (distill-all (:ec2 provider-deps))
              (load-ec2 opts))))
 
