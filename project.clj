@@ -10,4 +10,5 @@
                  [com.palletops/pallet "0.8.0-beta.10"]
                  [com.palletops/pallet-repl "0.8.0-SNAPSHOT"]]
   :repositories {"sonatype"
-               "http://oss.sonatype.org/content/repositories/releases"})
+                 "http://oss.sonatype.org/content/repositories/releases"}
+  :jvm-opts ["-Djava.awt.headless=true"])
