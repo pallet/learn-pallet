@@ -6,5 +6,8 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/tools.logging "0.2.3"]
                  [ch.qos.logback/logback-classic "1.0.9"]
-                 [alembic "0.1.1-SNAPSHOT"]
-                 [com.palletops/pallet "0.8.0-beta.9"]])
+                 [alembic "0.1.1"]
+                 [com.palletops/pallet "0.8.0-beta.10"]
+                 [com.palletops/pallet-repl "0.8.0-SNAPSHOT"]]
+  :repositories {"sonatype"
+               "http://oss.sonatype.org/content/repositories/releases"})

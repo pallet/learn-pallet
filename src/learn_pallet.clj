@@ -5,12 +5,12 @@
             [pallet.crate.automated-admin-user :refer [with-automated-admin-user]]))
 
 (def provider-deps
-  {:vmfest '[[com.palletops/pallet-vmfest "0.3.0-SNAPSHOT"]]
+  {:vmfest '[[com.palletops/pallet-vmfest "0.3.0-alpha.5"]]
    :ec2 '[[org.cloudhoist/pallet-jclouds "1.5.2"]
           [org.jclouds.provider/aws-ec2 "1.5.5"]
           [org.jclouds.provider/aws-s3 "1.5.5"]
-          [org.jclouds.provider/jclouds-slf4j "1.5.5"]
-          [org.jclouds.provider/jclouds-sshj "1.5.5"]]})
+          [org.jclouds.driver/jclouds-slf4j "1.5.5"]
+          [org.jclouds.driver/jclouds-sshj "1.5.5"]]})
 
 
 (defn distill-all
