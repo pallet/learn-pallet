@@ -22,9 +22,15 @@
   *compute*
   nil)
 
-(defn base-spec [image-id]
+;; ubuntu precise 64-bit EBS for us-east-1 region
+(def ec2-node-spec
+  {:image {:image-id "us-east-1/ami-e50e888c"}
+   :location { :location-id "us-east-1a"}})
+
+
+(defn base-spec [node-spec]
   (pallet.api/group-spec "learn-pallet-base-spec"
-                         :node-spec {:image {:image-id image-id}}
+                         :node-spec node-spec
                          :extends [with-automated-admin-user]))
 
 (defonce ^:dynamic
@@ -47,7 +53,8 @@
   "Sets EC2 as the compute provider"
   [opts]
   (let [compute (apply instantiate-provider :aws-ec2 opts)]
-    (alter-var-root #'*compute* (constantly compute))))
+    (alter-var-root #'*compute* (constantly compute))
+    (alter-var-root #'*base-spec* (constantly (base-spec ec2-node-spec)))))
 
 (defn bootstrap
   "Boostraps the project, based on the `provider`. Providers allowed are:

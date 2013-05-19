@@ -8,6 +8,11 @@
         [clojure.tools.logging :only [debugf warnf]]))
 
 (def ^:dynamic *image*
+  {:vagrant? false
+   :url "https://s3.amazonaws.com/vmfest-images/ubuntu-12.04.vdi.gz"
+   :image-id :ubuntu-12.04})
+
+#_(def ^:dynamic *image*
   {:vagrant? true
    :url "http://files.vagrantup.com/precise32.box"
    :os-family :ubuntu
@@ -16,12 +21,12 @@
    :os-type-id "Ubuntu_32",
    :image-id :precise32})
 
-(defn- set-node-image-id! [image-id]
+(defn- set-base-node-spec! [image-id]
   (let [base-spec (ns-resolve 'learn-pallet 'base-spec)]
     (alter-var-root
      (ns-resolve 'learn-pallet '*base-spec*)
      (constantly
-      (base-spec image-id)))))
+      (base-spec {:image {:image-id image-id}})))))
 
 (defn bootstrap-vmfest [compute & {:keys [image-id] :as options}]
   ;; get the vmfest connection from the provider
@@ -31,7 +36,7 @@
     (if image-found?
       (do
         ;; reset the node spec to be used base on the selected image-id
-        (set-node-image-id! image-id)
+        (set-base-node-spec! image-id)
         (println
          "*** Congratulations! Your setup already contains an image with id"
          image-id)
@@ -56,7 +61,7 @@
                    (let [meta (select-keys *image* [:os-type-id :os-family
                                                     :os-version :os-64-bit])]
                      (install-image compute url {:meta meta})
-                     (set-node-image-id! (:image-id *image*)))
+                     (set-base-node-spec! (:image-id *image*)))
                    (install-image compute url))
                  (println "*** VM image successfully downloaded and installed,")
                  (println "***   we're ready to roll!"))
