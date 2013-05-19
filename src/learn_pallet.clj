@@ -18,9 +18,10 @@
   [deps]
   (doseq [dep deps] (distill dep)))
 
-(defonce ^:dynamic
-  *compute*
-  nil)
+
+(defonce ^{:dynamic true
+           :doc "The compute provider to be used exercises"}
+  *compute* nil)
 
 ;; ubuntu precise 64-bit EBS for us-east-1 region
 (def ec2-node-spec
