@@ -1,4 +1,4 @@
-(defproject learn-pallet "0.1.0-SNAPSHOT"
+(defproject learn-pallet "1.0-beta.1"
   :description "Pallet exercises for the big and the small!"
   :url "http://palletops.com"
   :license {:name "Eclipse Public License"
