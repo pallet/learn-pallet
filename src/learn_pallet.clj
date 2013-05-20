@@ -2,7 +2,8 @@
   (:require [alembic.still :refer [distill]]
             [pallet.repl :refer :all]
             [pallet.compute :refer [instantiate-provider]]
-            [pallet.crate.automated-admin-user :refer [with-automated-admin-user]]))
+            [pallet.crate.automated-admin-user :refer [with-automated-admin-user]]
+            [pallet.api :refer [compute-service]]))
 
 (def provider-deps
   {:vmfest '[[com.palletops/pallet-vmfest "0.3.0-alpha.5"]]
@@ -40,10 +41,13 @@
 
 (defn- load-vmfest
   "Sets VMFest as the compute provider"
-  [& opts]
+  [& {:keys [provider] :as opts}]
   ;; instantiate the provider first to load the right vbox lib into
   ;; the classpath
-  (let [compute (apply instantiate-provider :vmfest opts)]
+  (let [opts (dissoc opts :provider)
+        compute (if provider
+                  (apply compute-service provider opts)
+                  (apply instantiate-provider :vmfest opts))]
     (require 'pallet.compute.vmfest 'learn-pallet.vmfest)
     (let [bootstrap-vmfest (ns-resolve 'learn-pallet.vmfest
                                        'bootstrap-vmfest)]
@@ -52,8 +56,11 @@
 
 (defn- load-ec2
   "Sets EC2 as the compute provider"
-  [opts]
-  (let [compute (apply instantiate-provider :aws-ec2 opts)]
+  [& {:keys [provider] :as opts}]
+  (let [opts (dissoc opts :provider)
+        compute (if provider
+                  (apply compute-service provider opts)
+                  (apply instantiate-provider :aws-ec2 opts))]
     (alter-var-root #'*compute* (constantly compute))
     (alter-var-root #'*base-spec* (constantly (base-spec ec2-node-spec)))))
 
@@ -70,7 +77,7 @@
     :vmfest-ws (do (distill-all (:vmfest provider-deps))
                    (apply load-vmfest :vbox-comm :ws (rest opts)))
     :ec2 (do (distill-all (:ec2 provider-deps))
-             (load-ec2 opts))))
+             (apply load-ec2 opts))))
 
 (defmacro bootstrap-ns
   "Bootstraps the namespace `ns` by downloading (if necessary) and
