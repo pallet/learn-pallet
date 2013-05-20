@@ -62,7 +62,9 @@
                   (apply compute-service provider opts)
                   (apply instantiate-provider :aws-ec2 opts))]
     (alter-var-root #'*compute* (constantly compute))
-    (alter-var-root #'*base-spec* (constantly (base-spec ec2-node-spec)))))
+    (alter-var-root #'*base-spec* (constantly (base-spec ec2-node-spec)))
+    (println
+     "*** Congratulations! You're connected to Amazon Web Services. Enjoy!")))
 
 (defn bootstrap
   "Boostraps the project, based on the `provider`. Providers allowed are:
