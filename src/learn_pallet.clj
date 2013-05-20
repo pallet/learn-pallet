@@ -71,6 +71,11 @@
   - :vmfest-ws -> for VirtualBox via Web Services. Requires `vboxwebsrv` running.
   - :ec2 -> for Amazon EC2. Requires :identity and :credential parameters."
   [provider & opts]
+  ;; pallet caches the list of available providers on the first run,
+  ;; and doesn't update it afterwards. We load new providers at
+  ;; runtime, so we need to it to reload the list, and we force it by
+  ;; resetting the provider list. Hack, I know....
+  (reset! pallet.compute.implementation/provider-list nil)
   (condp = provider
     :vmfest (do (distill-all (:vmfest provider-deps))
                 (apply load-vmfest opts))
