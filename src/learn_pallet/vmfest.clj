@@ -2,7 +2,7 @@
   "Namespace to guess the vbox.home system property, lifted from pallet-vmfest"
   (:use vmfest.manager
         [pallet.compute.vmfest.properties]
-        [pallet.compute.vmfest :only [has-image? install-image]]
+        [pallet.compute.vmfest :only [has-image? add-image]]
         [clojure.pprint :only [print-table]]
         [clojure.java.io :only [file]]
         [clojure.tools.logging :only [debugf warnf]]))
@@ -60,9 +60,9 @@
                  (if vagrant?
                    (let [meta (select-keys *image* [:os-type-id :os-family
                                                     :os-version :os-64-bit])]
-                     (install-image compute url {:meta meta})
+                     (add-image compute url {:meta meta})
                      (set-base-node-spec! (:image-id *image*)))
-                   (install-image compute url))
+                   (add-image compute url))
                  (println "*** VM image successfully downloaded and installed,")
                  (println "***   we're ready to roll!"))
                (catch Exception e
