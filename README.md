@@ -5,7 +5,7 @@ A project to help you learn pallet via live-coding.
 ## Running the Exercises
 
 Before you can run the code in the exercises, you need to
-[start a session](wiki/Starting-a-Session).
+[start a session](https://github.com/pallet/learn-pallet/wiki/Starting-a-Session).
 
 Each exercise in `learn-pallet` lives in its own namespace. We will
 use `switch-ns` to switch exercises (namespaces). E.g. to run the code
