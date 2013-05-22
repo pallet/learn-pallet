@@ -2,104 +2,10 @@
 
 A project to help you learn pallet via live-coding.
 
-## Prerequisites
-
-You need to have a Linux or Mac OSX computer, and if you are going to
-use Amazon EC2, then you can also use a modern Windows OS.
-
-You also your computer to have installed:
-
-  - [Java 7][java]
-  - [Leiningen][lein] (Use [this link][lein-win] for Windows)
-  - A SSH key pair in a `.ssh` directory in your home directory, named
-    `id_rsa` and `id_rsa.pub`
-  - (Optional) If you want to run learn-pallet on local VMs, you need
-    [VirtualBox 4.12 or newer][vbox]
-    
-## Backend Options
-
-Pallet can use multiple backends. It can use any cloud provider, local
-virtual machines, or your own servers and for simplicity,
-`learn-pallet` is configured to run only on Amazon EC2 as a public
-cloud and VirtualBox for local VMs.
-
-Pallet has two methods for to connectoin to VirtualBox: XPCOM and
-Web Services. The XPCOM method is more convenient and works well
-on OSX and relatively old versions of Linux, but there are some open
-issues that won't let XPCOM work with the latest versions of
-Debian/Ubuntu, and there is no support for XPCOM on Windows. Besides,
-we don't support VirtualBox on Windows yet. As a summary:
-
-- __OSX, Linux (except Ubuntu 11.x or newer, Debian 6 or newer)__: use
-  VirtualBox via XPCOM (or EC2)
-- __Latest versions of Ubuntu or Debian__: use VirtualBox via
-  Web Services (or EC2)
-- __Windows__: use EC2
-
-## Usage
-
-To use `learn-pallet` you will need to initiate a Clojure REPL. All
-the exercises are run at the REPL.
-
-### Starting A Session
-Before you can use any of the code, you need to bootstrap your
-session. This will download some libraries and add them to this
-project.
-
-Open a terminal and change the current directory to where
-`learn-pallet` is, and then run `lein repl` to get the Clojure REPL:
-
-```shell
-bash$ lein repl
- ...
-user=>
-```
-
-Notice that the REPL prompt is `user=>` for the default `user`
-namespace. 
-
-Now, at the REPL, we need to load `learn-pallet` and bootstrap the
-session:
-
-```clojure
-user=> (use 'learn-pallet)
-nil
-```
-
-You're ready to bootstrap the system to use EC2 or VirtualBox.
-
-### Bootstrapping for VirtualBox (XPCOM)
-
-At the REPL, run:
-
-```clojure
-user=> (bootstrap :vmfest)
-
-*** Congratulations! Your setup already contains an image with id :ubuntu-12.04
-*** This means we're ready to roll :)
-nil
-```
-
-This will get you a working VMFest if you have VirtualBox already
-installed. If you don't have an Ubuntu 12.04 image installed, it will
-download and install one, so be patient! Once this comes back, you're
-ready for your session, and you can skip to "Running the Exercises".
-
-### Bootstrapping for Amazon EC2
-
-At the REPL, run: 
-
-```clojure
-user=> (bootstrap :ec2 :identity "<your-aws-identity>" :credential "<your-aws-credential>")
-
-*** Congratulations! You're connected to Amazon Web Services. Enjoy!
-nil
-```
-
-This will log you into Amazon AWS. Once this comes back, you're ready
-for your session, and you can skip to "Running the Exercises".
-
 ## Running the Exercises
+
+Before you can run the code in the exercises, you need to
+[start a session](wiki/Starting-a-Session).
 
 Each exercise in `learn-pallet` lives in its own namespace. We will
 use `switch-ns` to switch exercises (namespaces). E.g. to run the code
@@ -112,14 +18,8 @@ install-java=>
 ```
 
 Running this command will download and install a few libraries, so it
-might take some time to come back. Please disregard the WARN messages,
-they are just letting you know the about the magic `learn-pallet` is
-performing on your JVM's classpath, and these messages will go away in
-the future. Also, you might get other messages if the system had to
-download libraries.
-
-Notice that now your REPL is now on a different namespace than before:
-`install-java`.
+might take some time to come back. Notice that now your REPL is now on
+a different namespace than before: `install-java`.
 
 This particular exercise has a `run` function that will create a new
 VM and get java installed on it.
@@ -130,8 +30,8 @@ install-java=> (def result (run))
 
 The output of running this function will be stored in the variable
 `result`. Feel free to inspect this variable, e.g. `(pprint result)`.
-Also, Pallet logs all the actions it peforms in the file
-`logs/pallet.log` in your `learn-pallet` directory.
+Also, Pallet logs all the actions it performs in the file
+`logs/pallet.log`.
 
 You can verify that Java is installed on the newly created node by
 SSH-ing into it. First we need to get the IP Address of your node:
@@ -156,7 +56,7 @@ Welcome to Ubuntu 12.04.1 LTS (GNU/Linux 3.2.0-33-virtual x86_64)
 tbatchelli@ip-10-80-187-174:~$
 ```
 
-No password you ask? Nope, `learn-pallet` has autorized your SSH keys
+No password you ask? Nope, `learn-pallet` has authorized your SSH keys
 on the node for your convenience. Go ahead and checkout that java is
 installed in the node by running:
 ```shell
@@ -178,30 +78,6 @@ And if we wanted to go to another exercise, we'd use `switch-ns` again:
 
 ```clojure
 install-java=> (switch-ns <new-exercise>)
-```
-
-## FAQ et al.
-
-### Bootstrapping for VirtualBox with Web Services
-
-For Pallet to connect to VirtualBox via Web Sevices, you need to run
-__only once__ the following command at the shell:
-
-```shell
-bash$ VBoxManage setproperty websrvauthlibrary null
-```
-
-Every time you want to use Pallet with VMFest you will have to start
-the VirtualBox server by running this at the shell and leave it running:
-
-```shell
-bash$ vboxwebsrv -t0
-```
-
-Now you can bootstrap vmfest at the REPL by running:
-
-```clojure
-user=> (bootstrap :vmfest-ws)
 ```
 
 ## Contact
