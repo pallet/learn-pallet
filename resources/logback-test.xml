@@ -83,14 +83,17 @@
   <logger name="pallet.stevedore" level="ERROR"/>
   <logger name="pallet.action-plan" level="ERROR"/>
   <logger name="pallet.algo.fsm" level="ERROR"/>
-  <logger name="pallet.algo.fsmop" level="ERROR"/>
+  <logger name="pallet.algo.fsmop" level="INFO"/>
   <logger name="pallet.action-plan" level="ERROR"/>
   <logger name="pallet.execute" level="DEBUG"/>
-  <logger name="pallet.core.api" level="ERROR"/>
-  <logger name="pallet.core.primitives" level="ERROR"/>
-  <logger name="pallet.core.operations" level="ERROR"/>
+  <logger name="pallet.compute.docker" level="TRACE"/>
+  <logger name="pallet.compute.docker.tagfile" level="TRACE"/>
+  <logger name="pallet.core.api" level="TRACE"/>
+  <logger name="pallet.core.primitives" level="TRACE"/>
+  <logger name="pallet.core.operations" level="TRACE"/>
   <logger name="pallet.transport" level="ERROR"/>
   <logger name="clj-ssh.ssh" level="ERROR"/>
+  <logger name="docker-riemann" level="DEBUG"/>
   <!-- <logger name="pallet.execute.default-executor" level="TRACE"/> -->
 
   <root level="ERROR">
