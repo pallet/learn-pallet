@@ -1,7 +1,7 @@
 (use 'learn-pallet)
 (bootstrap-ns docker-riemann
-              '[[com.palletops/pallet-docker "0.8.0-SNAPSHOT"]
-                [com.palletops/docker-crate "0.8.0-SNAPSHOT"]
+              '[[com.palletops/pallet-docker "0.1.0"]
+                [com.palletops/docker-crate "0.8.0-alpha.1"]
                 [com.palletops/java-crate "0.8.0-beta.5"]
                 [com.palletops/riemann-crate "0.8.0-alpha.2"]])
 
