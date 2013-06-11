@@ -17,8 +17,8 @@
 (defn distill-all
   "Distills a sequence of lein-style libs"
   [deps]
-  (doseq [dep deps] (distill dep)))
-
+  (doseq [dep deps]
+    (distill dep :verbose false)))
 
 (defonce ^{:dynamic true
            :doc "The compute provider to be used exercises"}
