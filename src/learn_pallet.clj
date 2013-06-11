@@ -102,10 +102,9 @@
      (in-ns '~ns)
      (clojure.core/use '~'learn-pallet)))
 
-(defmacro switch-ns
-  "Switches the repl to a new namespace `ns`. It does so by loading
-  such namespace first and possibly rprompt the execution of the
-  `boostrap-ns` macro to load dependencies into the classpath."
+(defmacro section
+  "Switches the repl to a new learn-pallet section. It does so by loading the
+  section namespace, and using `learn-pallet` and `pallet.repl`."
   [ns]
   `(do ;; make sure the namespace is boostrapped by requiring it
      (require '~ns :reload)
@@ -118,3 +117,6 @@
      (clojure.core/use '~'learn-pallet)
      ;; bring also the basic pallet.repl functions
      (clojure.core/use '~'pallet.repl)))
+
+(def ^:macro switch-ns @#'section)
+;; (alter-var-root #'switch-ns with-meta (meta #'section))

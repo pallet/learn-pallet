@@ -8,11 +8,11 @@ Before you can run the code in the exercises, you need to
 [start a session](https://github.com/pallet/learn-pallet/wiki/Starting-a-Session).
 
 Each exercise in `learn-pallet` lives in its own namespace. We will
-use `switch-ns` to switch exercises (namespaces). E.g. to run the code
+use `section` to switch exercises (sections). E.g. to run the code
 for the `install-java` exercise we do:
 
 ```clojure
-user=> (switch-ns install-java)
+user=> (section install-java)
   ...
 install-java=>
 ```
@@ -74,10 +74,10 @@ again:
 install-java=> (def result (destroy))
 ```
 
-And if we wanted to go to another exercise, we'd use `switch-ns` again:
+And if we wanted to go to another exercise, we'd use `section` again:
 
 ```clojure
-install-java=> (switch-ns <new-exercise>)
+install-java=> (section <new-exercise>)
 ```
 
 ## Contact
