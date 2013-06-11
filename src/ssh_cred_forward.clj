@@ -1,5 +1,7 @@
-(learn-pallet/bootstrap-ns ssh-cred-forward
-                           '[[com.palletops/git-crate "0.8.0-alpha.1"]])
+(use 'learn-pallet)
+(defsession ssh-cred-forward
+  :dependencies [[com.palletops/git-crate "0.8.0-alpha.1"]])
+
 (ns ssh-cred-forward
   (:require [pallet.api :refer [converge group-spec plan-fn]]
             [pallet.crate :refer [admin-user]]

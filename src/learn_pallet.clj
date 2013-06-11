@@ -102,6 +102,22 @@
      (in-ns '~ns)
      (clojure.core/use '~'learn-pallet)))
 
+(defmacro defsection
+  "Defines a section namespace `ns` by downloading (if necessary) and
+  installing in the classpath the listed dependencies (lein-style),
+  e.g:
+
+    (defsection test.test
+      :dependencies [[com.palletops/java-crate \"0.8.0-beta.4\"]])
+
+  Then it will use `learn-clojure` and `pallet.repl` into the
+  namespace."
+  [ns & {:keys [dependencies]}]
+  `(do
+     (distill-all '~dependencies)
+     (in-ns '~ns)
+     (clojure.core/use '~'learn-pallet)))
+
 (defmacro section
   "Switches the repl to a new learn-pallet section. It does so by loading the
   section namespace, and using `learn-pallet` and `pallet.repl`."

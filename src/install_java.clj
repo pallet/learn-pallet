@@ -1,5 +1,7 @@
-(learn-pallet/bootstrap-ns install-java
- '[[com.palletops/java-crate "0.8.0-beta.4"]])
+(use 'learn-pallet)
+(defsection install-java
+  :dependencies [[com.palletops/java-crate "0.8.0-beta.4"]])
+
 (ns install-java
   (:require [pallet.crate.java :as java]
             [pallet.api :as api]))

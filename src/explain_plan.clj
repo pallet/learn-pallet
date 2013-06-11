@@ -1,4 +1,6 @@
-(bootstrap-ns explain-plan nil)
+(use 'learn-pallet)
+(defsection explain-plan)
+
 (ns explain-plan
   (:require [pallet.repl :as repl]
             [pallet.actions :as actions]
