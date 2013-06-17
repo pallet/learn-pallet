@@ -1,5 +1,6 @@
 (use 'learn-pallet)
-(defsection explain-plan)
+(defsection explain-plan
+  :dependencies [[com.palletops/java-crate "0.8.0-beta.5"]])
 
 (ns explain-plan
   (:require [pallet.repl :as repl]
