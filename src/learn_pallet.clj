@@ -45,22 +45,24 @@
   ;; instantiate the provider first to load the right vbox lib into
   ;; the classpath
   (let [opts (dissoc opts :provider)
+        flattened-opts (mapcat identity opts)
         compute (if provider
                   (apply compute-service provider opts)
-                  (apply instantiate-provider :vmfest opts))]
+                  (apply instantiate-provider :vmfest flattened-opts))]
     (require 'pallet.compute.vmfest 'learn-pallet.vmfest)
     (let [bootstrap-vmfest (ns-resolve 'learn-pallet.vmfest
                                        'bootstrap-vmfest)]
       (alter-var-root #'*compute* (constantly compute))
-      (apply bootstrap-vmfest *compute* opts))))
+      (apply bootstrap-vmfest *compute* flattened-opts))))
 
 (defn- load-ec2
   "Sets EC2 as the compute provider"
   [& {:keys [provider] :as opts}]
   (let [opts (dissoc opts :provider)
+        flattened-opts (mapcat identity opts)
         compute (if provider
                   (apply compute-service provider opts)
-                  (apply instantiate-provider :aws-ec2 opts))]
+                  (apply instantiate-provider :aws-ec2 flattened-opts))]
     (alter-var-root #'*compute* (constantly compute))
     (alter-var-root #'*base-spec* (constantly (base-spec ec2-node-spec)))
     (println
