@@ -1,4 +1,6 @@
-(learn-pallet/bootstrap-ns multi-node nil)
+(use 'learn-pallet)
+(defsection multi-node)
+
 (ns multi-node
   (:require
    [pallet.api :as api]

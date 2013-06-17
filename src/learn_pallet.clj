@@ -17,8 +17,8 @@
 (defn distill-all
   "Distills a sequence of lein-style libs"
   [deps]
-  (doseq [dep deps] (distill dep)))
-
+  (doseq [dep deps]
+    (distill dep :verbose false)))
 
 (defonce ^{:dynamic true
            :doc "The compute provider to be used exercises"}
@@ -104,10 +104,25 @@
      (in-ns '~ns)
      (clojure.core/use '~'learn-pallet)))
 
-(defmacro switch-ns
-  "Switches the repl to a new namespace `ns`. It does so by loading
-  such namespace first and possibly rprompt the execution of the
-  `boostrap-ns` macro to load dependencies into the classpath."
+(defmacro defsection
+  "Defines a section namespace `ns` by downloading (if necessary) and
+  installing in the classpath the listed dependencies (lein-style),
+  e.g:
+
+    (defsection test.test
+      :dependencies [[com.palletops/java-crate \"0.8.0-beta.4\"]])
+
+  Then it will use `learn-clojure` and `pallet.repl` into the
+  namespace."
+  [ns & {:keys [dependencies]}]
+  `(do
+     (distill-all '~dependencies)
+     (in-ns '~ns)
+     (clojure.core/use '~'learn-pallet)))
+
+(defmacro section
+  "Switches the repl to a new learn-pallet section. It does so by loading the
+  section namespace, and using `learn-pallet` and `pallet.repl`."
   [ns]
   `(do ;; make sure the namespace is boostrapped by requiring it
      (require '~ns :reload)
@@ -120,3 +135,6 @@
      (clojure.core/use '~'learn-pallet)
      ;; bring also the basic pallet.repl functions
      (clojure.core/use '~'pallet.repl)))
+
+(def ^:macro switch-ns @#'section)
+;; (alter-var-root #'switch-ns with-meta (meta #'section))
