@@ -11,4 +11,5 @@
                  [com.palletops/pallet-repl "0.8.0-beta.1"]]
   :repositories {"sonatype"
                  "http://oss.sonatype.org/content/repositories/releases"}
+  :checkout-deps-shares ^:replace [:source-paths :compile-path]
   :jvm-opts ["-Djava.awt.headless=true"])
