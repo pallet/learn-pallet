@@ -1,32 +1,34 @@
 (learn-pallet/bootstrap-ns pallet-users nil)
 (ns pallet-users
-  (:require [pallet.action :refer [with-action-options]]
-            [pallet.actions :refer [remote-file user]]
-            [pallet.crate :refer [defplan]]))
+  (:require [pallet.action :as action]
+            [pallet.actions :as actions]
+            [pallet.crate :as crate]
+            [pallet.api :as api]))
 
-(def test-user "abcd")
+(def test-user "tiffany")
 
-(defplan  write-hello [n] (remote-file n  :content "hello world!"))
+(crate/defplan write-hello [n] (actions/remote-file n :content "hello world!"))
 
 (def user-group
-  (group-spec
+  (api/group-spec
    "user-group"
    :extends *base-spec*
-   :phases {:configure (plan-fn (user test-user :create-home true))
+   :phases {:configure (api/plan-fn
+                        (actions/user test-user :create-home true))
             :default
             ;; by default, pallet logs in with your user, and then
             ;; sudoes to 'root',
-            (plan-fn (write-hello "default.txt"))
+            (api/plan-fn (write-hello "/tmp/default.txt"))
             :sudo-as-user
-            (plan-fn
-             (with-action-options
+            (api/plan-fn
+             (action/with-action-options
                {:sudo-user test-user}
-               (write-hello "sudo-as-user.txt")))}))
+               (write-hello "/tmp/sudo-as-user.txt")))}))
 
 (defn run []
-  (converge {user-group 1}
+  (api/converge {user-group 1}
             :compute *compute*
             :phase [:configure :default :sudo-as-user]))
 
 (defn destroy []
-  (converge {user-group 0} :compute *compute*))
+  (api/converge {user-group 0} :compute *compute*))
