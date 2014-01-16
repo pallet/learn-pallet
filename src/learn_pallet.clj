@@ -6,7 +6,7 @@
             [pallet.api :refer [compute-service]]))
 
 (def provider-deps
-  {:vmfest '[[com.palletops/pallet-vmfest "0.3.0-alpha.5"]]
+  {:vmfest '[[com.palletops/pallet-vmfest "0.4.0-SNAPSHOT"]]
    :ec2 '[[org.cloudhoist/pallet-jclouds "1.5.2"]
           [org.jclouds.provider/aws-ec2 "1.5.5"]
           [org.jclouds.provider/aws-s3 "1.5.5"]
