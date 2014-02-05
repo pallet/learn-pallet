@@ -1,4 +1,4 @@
-<configuration scan="true" scanPeriod="1 seconds" debug="false">
+<configuration scan="true" scanPeriod="1 seconds" debug="true">
   <!-- <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" /> -->
 
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -39,7 +39,7 @@
       <maxHistory>3</maxHistory>
     </rollingPolicy>
     <encoder>
-      <pattern>%date %level %logger{10} %msg%n</pattern>
+      <pattern>%date %level %logger %msg%n</pattern>
     </encoder>
   </appender>
 
@@ -55,7 +55,7 @@
   </appender>
 
   <logger name="jclouds.headers" level="ERROR">
-    <appender-ref ref="WIREFILE" />
+    <appender-ref ref="WIREFILE"/>
   </logger>
 
   <logger name="jclouds.wire" level="ERROR">
@@ -70,7 +70,7 @@
     <appender-ref ref="COMPUTEFILE" />
   </logger>
 
-  <logger name="pallet" level="DEBUG">
+  <logger name="pallet" level="INFO">
     <appender-ref ref="PALLETFILE" />
   </logger>
 
@@ -79,23 +79,24 @@
   </logger>
 
   <logger name="pallet.configure" level="ERROR"/>
-  <logger name="pallet.executors" level="DEBUG"/>
+  <logger name="pallet.executors" level="ERROR"/>
   <logger name="pallet.stevedore" level="ERROR"/>
   <logger name="pallet.action-plan" level="ERROR"/>
   <logger name="pallet.algo.fsm" level="ERROR"/>
   <logger name="pallet.algo.fsmop" level="ERROR"/>
   <logger name="pallet.action-plan" level="ERROR"/>
-  <logger name="pallet.execute" level="DEBUG"/>
+  <logger name="pallet.execute" level="INFO"/>
   <logger name="pallet.core.api" level="ERROR"/>
   <logger name="pallet.core.primitives" level="ERROR"/>
   <logger name="pallet.core.operations" level="ERROR"/>
   <logger name="pallet.transport" level="ERROR"/>
+
   <logger name="clj-ssh.ssh" level="ERROR"/>
-  <!-- <logger name="pallet.execute.default-executor" level="TRACE"/> -->
+  <logger name="com.palletops.aws" level="INFO"/>
+  <logger name="pallet.compute.ec2" level="INFO"/> 
+  <logger name="pallet.ssh.transport" level="INFO"/>
 
-  <root level="ERROR">
-    <appender-ref ref="CONSOLE" />
-  </root>
-
-
+<root level="ERROR">
+ <appender-ref ref="CONSOLE" /> 
+</root> 
 </configuration>
