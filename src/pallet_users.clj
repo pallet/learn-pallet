@@ -1,4 +1,4 @@
-(learn-pallet/bootstrap-ns pallet-users nil)
+(defsection pallet-users)
 (ns pallet-users
   (:require [pallet.action :as action]
             [pallet.actions :as actions]

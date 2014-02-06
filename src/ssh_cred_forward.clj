@@ -1,4 +1,3 @@
-(use 'learn-pallet)
 (defsession ssh-cred-forward
   :dependencies [[com.palletops/git-crate "0.8.0-alpha.1"]])
 

@@ -109,22 +109,6 @@
     :pallet-ec2 (do (distill-all (:pallet-ec2 provider-deps))
                    (apply load-pallet-ec2 opts))))
 
-(defmacro bootstrap-ns
-  "Bootstraps the namespace `ns` by downloading (if necessary) and
-  installing in the classpath the listed dependencies (lein-style),
-  e.g:
-
-    (learn-pallet/bootstrap-ns test.test
-      '[[com.palletops/java-crate \"0.8.0-beta.4\"]])
-
-  Then it will bind `learn-clojure` and `pallet.repl` into the
-  namespace."
-  [ns deps]
-  `(do
-     (distill-all ~deps)
-     (in-ns '~ns)
-     (clojure.core/use '~'learn-pallet)))
-
 (defmacro defsection
   "Defines a section namespace `ns` by downloading (if necessary) and
   installing in the classpath the listed dependencies (lein-style),
@@ -156,6 +140,3 @@
      (clojure.core/use '~'learn-pallet)
      ;; bring also the basic pallet.repl functions
      (clojure.core/use '~'pallet.repl)))
-
-(def ^:macro switch-ns @#'section)
-;; (alter-var-root #'switch-ns with-meta (meta #'section))

@@ -1,4 +1,3 @@
-(use 'learn-pallet)
 (defsection install-java
   :dependencies [[com.palletops/java-crate "0.8.0-beta.4"]])
 

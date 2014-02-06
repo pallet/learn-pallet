@@ -1,4 +1,3 @@
-(use 'learn-pallet)
 (defsection multi-node)
 
 (ns multi-node
