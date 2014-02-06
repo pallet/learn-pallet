@@ -7,7 +7,7 @@
                  [org.clojure/tools.logging "0.2.3"]
                  [ch.qos.logback/logback-classic "1.0.9"]
                  [alembic "0.1.3"]
-                 [com.palletops/pallet "0.8.0-RC.6"]
+                 [com.palletops/pallet "0.8.0-RC.7"]
                  [com.palletops/pallet-repl "0.8.0-beta.2"]]
   :repositories {"sonatype"
                  "http://oss.sonatype.org/content/repositories/releases"}
